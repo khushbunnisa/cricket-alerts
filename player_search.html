@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: 'Roboto Slab', serif;
+            background-image: url('https://img.freepik.com/premium-photo/cricket-batsman-action-professional-cricket-stadium_1456-3847.jpg'); /* Replace 'your-image-url.jpg' with the actual URL of your image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        h1 {
+            color: white;
+        }
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-container input[type="text"], .search-container button {
+            width: 300px;
+            height: 40px;
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 5px;
+            border: 2px solid black;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .search-container button {
+            width: 150px;
+            cursor: pointer;
+            background-color: #663399;
+            color: white;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #663399;
+            color: #fff;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        img {
+            max-width: 50px;
+            max-height: 50px;
+        }
+        .no-players {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Player Search</h1>
+    <div class="search-container">
+        <form method="POST">
+            <input type="text" name="search_query" placeholder="Enter first name, last name, or full name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    {% if players %}
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Full Name</th>
+                    <th>Image</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Batting Style</th>
+                    <th>Position</th>
+                    <th>Continent</th>
+                    <th>Country</th>
+                    <th>Country Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in players %}
+                    <tr>
+                        <td>{{ player['firstname'] }}</td>
+                        <td>{{ player['lastname'] }}</td>
+                        <td>{{ player['fullname'] }}</td>
+                        <td><img src="{{ player['image_path'] }}" alt="Player Image"></td>
+                        <td>{{ player['dateofbirth'] }}</td>
+                        <td>{{ player['gender'] }}</td>
+                        <td>{{ player['battingstyle'] }}</td>
+                        <td>{{ player['position'] }}</td>
+                        <td>{{ player['continent_name'] }}</td>
+                        <td>{{ player['country_name'] }}</td>
+                        <td><img src="{{ player['country_image_path'] }}" alt="Country Image"></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-players">No players found.</p>
+    {% endif %}
+</body>
+</html>

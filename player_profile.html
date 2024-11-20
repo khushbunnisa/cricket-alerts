@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Profiles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto Slab', serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .search-container {
+            margin-top: 20px;
+        }
+        .results-container {
+            margin-top: 20px;
+            width: 80%;
+        }
+        .player-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Player Profiles</h1>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search for a player...">
+        <button onclick="searchPlayer()">Search</button>
+    </div>
+    <div class="results-container" id="resultsContainer"></div>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+
+    <script>
+        function searchPlayer() {
+            const query = document.getElementById('searchInput').value;
+            fetch(/search_player?query=${query})
+                .then(response => response.json())
+                .then(data => {
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    resultsContainer.innerHTML = '';
+                    data.forEach(player => {
+                        const playerCard = document.createElement('div');
+                        playerCard.classList.add('player-card');
+                        playerCard.innerHTML = `
+                            <h2>${player.name}</h2>
+                            <p><strong>Country:</strong> ${player.country}</p>
+                            <p><strong>Matches:</strong> ${player.matches}</p>
+                            <p><strong>Runs:</strong> ${player.runs}</p>
+                            <p><strong>Wickets:</strong> ${player.wickets}</p>
+                        `;
+                        resultsContainer.appendChild(playerCard);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>

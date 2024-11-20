@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRICKET ALERTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto Slab', serif;
+            background-image: url('https://www.puresoftware.com/wp-content/uploads/2021/04/cricket.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            z-index: 0;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #ffcc00;
+        }
+        .marquee {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 24px;
+            color: #ffcc00;
+            animation: scroll 10s linear infinite, colorchange 10s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes colorchange {
+            0% { color: #ffcc00; }
+            25% { color: #00ff00; }
+            50% { color: #0000ff; }
+            75% { color: #ff00ff; }
+            100% { color: #ffcc00; }
+        }
+        h1 {
+            font-size: 48px;
+            color: #ffcc00;
+            text-align: center;
+            margin-top: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .form-container {
+            text-align: center;
+            margin-top: 40px;
+            background-color: transparent; /* Full transparency */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: none;
+            width: 80%;
+            max-width: 600px;
+        }
+        label, select, button {
+            font-size: 20px;
+            margin: 10px;
+            font-weight: bold;
+        }
+        label {
+            color: #ffcc00; /* Yellow color for "Select a match" text */
+        }
+        select, button {
+            border: 2px solid #663399;
+            border-radius: 30px;
+            background-color: #fff;
+            padding: 14px 28px;
+            transition: all 0.3s;
+            cursor: pointer;
+            outline: none;
+            color: #663399; /* Default text color for select and button */
+        }
+        select:focus, button:focus {
+            border-color: #9b59b6;
+        }
+        button:hover {
+            background-color: #9b59b6;
+            color: #fff;
+        }
+        .logout {
+            font-size: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #663399;
+            padding: 14px 28px;
+            border-radius: 30px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+            z-index: 1;
+        }
+        .logout:hover {
+            background-color: #9b59b6;
+        }
+        .player-profile-link {
+            font-size: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #ffcc00;
+            padding: 14px 28px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .player-profile-link:hover {
+            background-color: #ffcc00;
+            color: #663399;
+        }
+        p {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="marquee-container">
+        <div class="marquee">
+            Cricket Alerts: Stay updated with the latest scores and notifications!
+        </div>
+    </div>
+    <h1>Select Matches for Notifications</h1>
+    <div class="form-container">
+        <form method="post">
+            <label for="match">Select a match:</label>
+            <select name="match" id="match">
+                {% for index, match in matches %}
+                    <option value="{{ index }}">{{ match }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Start Notifications</button>
+        </form>
+        <form method="post" class="stop-notifications">
+            <button name="stop_notifications" type="submit">Stop Notifications</button>
+        </form>
+    </div>
+    <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+    <a class="player-profile-link" href="{{ url_for('player_search') }}">Player Profile Search</a>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>
